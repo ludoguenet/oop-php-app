@@ -1,19 +1,19 @@
 <?php
 
+require 'vendor/autoload.php';
+
+use Routes\Router;
 use Database\PDOConnection;
+use App\Controllers\HomeController;
+use App\Controllers\UserController;
 
 session_start();
-require 'config/init.php';
 
 $dbHandle = PDOConnection::getPDO();
-$dbHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$dbHandle->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
+$router = new Router($_SERVER['REQUEST_URI']);
 
-//TODO: Create Router class and make improvements
-
-$route = str_replace('', "", $_SERVER['REQUEST_URI']);
-$route = explode('/', $route);
+var_dump($router->parseRoute());
 
 switch ($route[1]??'') {
 

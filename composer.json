@@ -1,0 +1,19 @@
+{
+    "name": "d45h8/designpatterns",
+    "description": "App for improving OOP principles skills",
+    "authors": [
+        {
+            "name": "ludoguenet",
+            "email": "ludovicguenet@gmx.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\": "database/",
+            "Models\\": "models/",
+            "Routes\\": "routes/"
+        }
+    },
+    "require": {}
+}

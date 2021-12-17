@@ -21,7 +21,8 @@ final class PDOConnection
             self::$PDO_instance = new PDO(
                 'mysql:host=' . self::getParams('host') . ';dbname=' . self::getParams('db'),
                 self::getParams('username'),
-                self::getParams('password')
+                self::getParams('password'),
+                [PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION, PDO::ATTR_EMULATE_PREPARES, false]
             );
         }
 
