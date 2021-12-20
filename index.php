@@ -2,6 +2,7 @@
 
 require 'vendor/autoload.php';
 
+use App\Controllers\Factory\ControllerFactory;
 use Routes\Router;
 use Database\PDOConnection;
 use App\Controllers\HomeController;
@@ -9,53 +10,14 @@ use App\Controllers\UserController;
 
 session_start();
 
+// BDD Connection
 $dbHandle = PDOConnection::getPDO();
 
+// Router
 $router = new Router($_SERVER['REQUEST_URI']);
+$route = $router->parseRoute();
 
-var_dump($router->parseRoute());
+// ControllerFactory
+$controllerFactory = new ControllerFactory($router, $dbHandle);
 
-switch ($route[1]??'') {
-
-    case '':
-    case 'home':
-    case 'index.php':
-       HomeController::show();
-        break;
-
-    case 'login':
-        HomeController::showLoginForm();
-        break;
-
-    case 'logout':
-        UserController::logout();
-        break;
-
-    case 'results':
-        HomeController::showResults();
-        break;
-
-    case 'register':
-        HomeController::showRegisterForm();
-        break;
-
-    case 'registerUser':
-        $user = new UserController($dbHandle);
-        $user->register();
-        break;
-
-    case 'loginUser':
-        $user = new UserController($dbHandle);
-        $user->login();
-        break;
-
- case 'search':
-        $user = new UserController($dbHandle);
-        $user->findUser();
-        break;
-
-    default:
-        include 'Views/404.php';
-        break;
-
-}
+$controller = $controllerFactory->make();
